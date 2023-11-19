@@ -1,0 +1,1 @@
+Solutions for Advent of Code 2023 written in Rust. No particular paradigm or approach is targeted, beyond striving to have solutions sufficiently general to be able to read input data from any user and not be overfitted to my own.
