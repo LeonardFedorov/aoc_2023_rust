@@ -38,11 +38,12 @@ fn run_day(args: Vec<String>) -> Result<(), &'static str> {
 
     //If a second argument is present, then swap to load test data
     let load_test_data = args.len() > 2;
+    let leading_zero = if day_num < 10 {"0"} else {""};
 
     let file_path = if load_test_data {
-        format!("input_data\\test\\Day{day_num}Test.txt")
+        format!("input_data\\test\\Day{leading_zero}{day_num}Test.txt")
     } else {
-        format!("input_data\\Day{day_num}Input.txt")
+        format!("input_data\\Day{leading_zero}{day_num}Input.txt")
     };
 
     let file_data = fs::read_to_string(&file_path);
@@ -62,7 +63,47 @@ fn run_day(args: Vec<String>) -> Result<(), &'static str> {
     let (part1_result, part2_result) = solutions::run_day(day_num, file_data);
     let after = before.elapsed();
 
-    println!("Part 1: {}\nPart 2: {}\nTime taken: {}ms", part1_result, part2_result, after.as_millis());
+    //If the code takes more 2^63 milliseconds to run and breaks the force cast, joke's on me I guess
+    println!("Part 1: {}\nPart 2: {}\nTime taken: {} ms", part1_result, part2_result, integer_with_commas(after.as_millis() as i64));
 
     return Ok(());
+}
+
+//Function to insert comma place separators into a printed integer
+//Uses accounting bracket notation for negative numbers
+pub fn integer_with_commas(number: i64) -> String {
+    
+    //Convert the number to a string and get basic info
+    let is_negative = number < 0;
+    let num_string = number.to_string();
+    let len = num_string.len() - (if is_negative {1} else {0});
+
+    let mut num_iter = num_string.chars();
+    
+    //If the number is negative, skip over the minus sign inserted by the string conversion
+    if is_negative {num_iter.next();}
+
+    //Worst case length is 3 times - if a negative single digit number is inserted
+    let mut new_string = String::with_capacity(3*len);
+
+    if is_negative {new_string.push('(');}
+
+    for i in 0 .. len {
+        let next_char = num_iter.nth(0).expect("String ran out early");
+        new_string.push(next_char);
+
+        //This inserts the commas every third position starting from the right place
+        //but will always insert an extra comma at the end
+        if (i + 1) % 3 == (len % 3) {
+            new_string.push(',')
+        }
+    }
+
+    //Remove the extraneous comma
+    new_string.pop();
+
+    if is_negative {new_string.push(')');}
+
+    return new_string;
+
 }
