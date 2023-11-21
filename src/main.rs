@@ -88,19 +88,16 @@ pub fn integer_with_commas(number: i64) -> String {
 
     if is_negative {new_string.push('(');}
 
-    for i in 0 .. len {
-        let next_char = num_iter.nth(0).expect("String ran out early");
-        new_string.push(next_char);
+    //Push the last char separately after the loop to prevent the insertion of an extraneous comma
+    for i in 0 .. len-1 {
+        new_string.push(num_iter.nth(0).expect("String ran out early"));
 
         //This inserts the commas every third position starting from the right place
-        //but will always insert an extra comma at the end
         if (i + 1) % 3 == (len % 3) {
             new_string.push(',')
         }
     }
-
-    //Remove the extraneous comma
-    new_string.pop();
+    new_string.push(num_iter.nth(0).expect("String ran out early"));
 
     if is_negative {new_string.push(')');}
 
