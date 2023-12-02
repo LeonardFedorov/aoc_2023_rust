@@ -1,4 +1,4 @@
-pub fn day1_solution(input_data: String) -> (String, String) {
+pub fn day01_solution(input_data: String) -> (String, String) {
 
     let mut p1_sum = 0;
     let mut p2_sum = 0;

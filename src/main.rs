@@ -63,8 +63,18 @@ fn run_day(args: Vec<String>) -> Result<(), &'static str> {
     let (part1_result, part2_result) = solutions::run_day(day_num, file_data);
     let after = before.elapsed();
 
-    //If the code takes more 2^63 milliseconds to run and breaks the force cast, joke's on me I guess
-    println!("Part 1: {}\nPart 2: {}\nTime taken: {} ms", part1_result, part2_result, integer_with_commas(after.as_millis() as i64));
+    //If the code takes more 2^63 milliseconds to run and breaks the casts, joke's on me I guess
+    let millis = after.as_millis() as i64;
+    let mut micros = false;
+
+    let time = if millis < 10 {
+        micros = true;
+        integer_with_commas(after.as_micros() as i64)
+    } else {
+        integer_with_commas(millis)
+    };
+   
+    println!("Part 1: {part1_result}\nPart 2: {part2_result}\nTime taken: {time} {}s", if micros {'μ'} else {'m'});
 
     return Ok(());
 }
