@@ -8,3 +8,6 @@ At first glance, this looked like it might be a pain but the way string splits i
 
 ## Day 3
 The classic return of the "search a 2d array looking for things and reasoning about their neighbours". This brings with it the ugly case analysis of handling not reading out of bounds on the array and such like. As such the solution isn't pretty, but it at least works and I think is reasonably efficient. The gears aren't handled during the initial iteration, but their locations are marked a second map with the actual numbers marked on it is built during the part 1 iteration to make calculating part 2 fairly quick.
+
+## Day 4
+An easier puzzle than the previous days, although my initial iterator for loop for part 1 wasn't as compatible with part 2 so had to fall back with a indexed for loop over a vector. This was one of the ones where understanding the puzzle took longer than actually building the code to solve it.
