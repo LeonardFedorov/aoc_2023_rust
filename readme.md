@@ -14,3 +14,10 @@ An easier puzzle than the previous days, although my initial iterator for loop f
 
 ## Day 5
 Part 2 of this day contained a classic AoC brute force trap, which my initial solution fell right into. This was optimised by implementing a lookahead which assessed the level of "headroom" on each range to determine how many seeds could be skipped for having a known same result. The end result was very fast, running in roughly half a millisecond with debug symbols.
+
+## Day 6
+Looked at this on a train and was able to solve by hand on paper using only a regular calculator due to the small size of the input data and the existence of an analytical solution. The PDF of these workings has been included in the repo (with no apologies for terrible handwriting, it was half 7 in the morning...)
+
+## Day 7
+Today was my first foray into traits for custom types which made this fairly approachable. The main thrust of the solution was to create a struct to hold the parse of a hand, including a list of the cards and the strength type: the evaluation of which was made much simpler by the omission of suits or straights, all that was needed was to count how many each sized tuple were present in the hand. I then implemented the ordering trait on the hand struct which ordered first by hand strength and then resolved ties by doing card by card comparison. I translated the cards themselves into an integer enum from 0 to 12 to facilitate ease of comparison.
+The joker twist in part 2 was prima facie quite the the curveball for my approach but I was able to make it work. I altered the parser so that, when part 2 was being done, the joker was considered card 0 and the cards from 2 up to T were then shuffled up one so that the comparison logic in the struct order still worked as-was. Since there were no straights to think about, for hand strength type it sufficed to simply add on the jokers to one of the largest tuples already present, at which point the same hand strength evaluation logic then worked.
