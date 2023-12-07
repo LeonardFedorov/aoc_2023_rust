@@ -17,6 +17,7 @@ Part 2 of this day contained a classic AoC brute force trap, which my initial so
 
 ## Day 6
 Looked at this on a train and was able to solve by hand on paper using only a regular calculator due to the small size of the input data and the existence of an analytical solution. The PDF of these workings has been included in the repo (with no apologies for terrible handwriting, it was half 7 in the morning...)
+Added a code version of the same solution. As expected it runs incredibly fast - 54 μs with debug symbols and 13 μs without.
 
 ## Day 7
 Today was my first foray into traits for custom types which made this fairly approachable. The main thrust of the solution was to create a struct to hold the parse of a hand, including a list of the cards and the strength type: the evaluation of which was made much simpler by the omission of suits or straights, all that was needed was to count how many each sized tuple were present in the hand. I then implemented the ordering trait on the hand struct which ordered first by hand strength and then resolved ties by doing card by card comparison. I translated the cards themselves into an integer enum from 0 to 12 to facilitate ease of comparison.
