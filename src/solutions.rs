@@ -9,7 +9,7 @@ mod day06;
 mod day07; 
 mod day08; 
 mod day09; 
-//mod day10;
+mod day10;
 //mod day11; 
 //mod day12; 
 //mod day13; 
@@ -38,7 +38,7 @@ pub fn run_day(day: i32, input_data: String) -> (String, String) {
         07 => day07::day07_solution(input_data),
         08 => day08::day08_solution(input_data),
         09 => day09::day09_solution(input_data),
-        //10 => day10::day10_solution(input_data),
+        10 => day10::day10_solution(input_data),
         //11 => day11::day11_solution(input_data),
         //12 => day12::day12_solution(input_data),
         //13 => day13::day13_solution(input_data),
