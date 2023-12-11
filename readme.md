@@ -28,3 +28,6 @@ Very straight forward - just initialised a square 2d array of size line length a
 
 ## Day 10
 This was a challenging one. Part 1 wasn't too bad once I had sorteds out the data structure, but part 2 required serious thought. The approach I took was to read from left to right across the array, changing from "outside" to "inside" every time the pipe crossed over the line being scanned. The nuance here was to realise that if the pipe came into the scanned row, went horizontally along it, and then left the scanned row in the same direction it entered, the inside/outside state wouldn't flip.
+
+## Day 11
+Another easy day. Didn't fall into the trap that part 1 was laying (that of reconstructing the expanded cosmos) so part 2 was an easy addition. Played around with generic types for function signatures for the first time here, which was a nice addition (although strictly speaking unnecessary).
