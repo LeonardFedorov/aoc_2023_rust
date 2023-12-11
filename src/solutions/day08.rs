@@ -36,7 +36,7 @@ pub fn day08_solution(input_data: String) -> (String, String) {
         }
     }
 
-    //Part 2 - get the start locations that start in A
+    //Part 2 - get the start locations that start in A and process their cycle deets
     //This has to be done from original data array because there's no way to discern an empty hash map entry from the true AAA
     let mut p2_locations = path_data.lines().filter(
         |map_entry|
@@ -44,30 +44,44 @@ pub fn day08_solution(input_data: String) -> (String, String) {
     ).map(
         |a_map_entry|
             convert_address(&a_map_entry[0..=2])
-    ).collect::<Vec<usize>>();
+    ).map(
+        |a_start: usize| 
+            parse_cycle(a_start, &path_map, &directions)
+    ).collect::<Vec<CycleDeets>>();
 
-    let mut p2_step_count = 0;
-    direction = 0;
+    let mut step_counts: Vec<usize> = vec![0; p2_locations.len()];
 
-    loop {
-        //Update looping variables
-        p2_step_count += 1;
-
-        for i in 0 .. p2_locations.len() {
-            p2_locations[i] = path_map[p2_locations[i]][directions[direction]];
-        }
-
-        if is_p2_over(&p2_locations) {break;}
-
-        //Set up next direction
-        if direction == directions.len() - 1 {
-            direction = 0;
-        } else {
-            direction += 1;
-        }
+    //Implicitly assuming now that there is only one z point in each loop. 
+    //This was true from step through inspection though makes the solution not fully general
+    for i in 0 .. p2_locations.len() {
+        step_counts[i] = p2_locations[i].z_points[0];
     }
 
-    return (p1_step_count.to_string(), p2_step_count.to_string());
+    let mut new_max = step_counts[1];
+    loop {
+        //Loop until alignment found across all paths
+        while step_counts[0] < new_max {
+            step_counts[0] += p2_locations[0].cycle_length;
+        }
+
+        let mut loop_over = true;
+
+        for i in 1 .. step_counts.len() {
+            while step_counts[i - 1] > step_counts[i] {
+                step_counts[i] += p2_locations[i].cycle_length;
+            }
+
+            if step_counts[i - 1] != step_counts[i] {
+                new_max = step_counts[i];
+                loop_over = false;
+                break; //start again
+            }
+        }
+        if loop_over {break;}
+    }
+
+
+    return (p1_step_count.to_string(), step_counts[0].to_string());
 }
 
 //Build the path map using a hash map where the hash of a number is its integer representaiton in base 26
@@ -99,15 +113,54 @@ fn convert_address(address: &str) -> usize {
     ;
 }
 
-//Part 2 is over when every address ends in Z - i.e. when their remainder mod 26 is 25
-fn is_p2_over(location_list: &Vec<usize>) -> bool {
+fn parse_cycle(start_point: usize, path_map: &Vec<Vec<usize>>, directions: &Vec<usize>) -> CycleDeets {
 
-    let mut result = true;
-    for i in 0.. location_list.len() {
-        if location_list[i] % 26 != 25 {
-            result = false;
-            break;
+    let mut path_trace: Vec<(usize,usize)> = Vec::with_capacity(directions.len());
+    let mut z_points: Vec<usize> = Vec::new();
+
+    let mut location: usize = start_point;
+
+    let mut cycle_search: Option<usize> = None;
+
+    path_trace.push((location, 0));
+    let mut direction: usize = 0;
+
+    loop {
+        location = path_map[location][directions[direction]];
+
+        //Update the direction now as we want to consider this from the PoV of "direction we would go from this point"
+        if direction == directions.len() - 1 {
+            direction = 0;
+        } else {
+            direction += 1;
         }
+
+        cycle_search = path_trace.iter().position(|(loc, dir)| *loc == location && *dir == direction);     
+
+        if cycle_search.is_some() {
+            return CycleDeets {
+                lead_in: cycle_search.unwrap(),
+                cycle_length: (path_trace.len() - cycle_search.unwrap()),
+                z_points: z_points,
+            }
+        }
+
+        //Store point in the path list
+        path_trace.push((location, direction));
+
+        //If this place ends in a Z (and it wasn't part of the cycle), then store it in the Z points
+        //Subtract one since the number of points in the path is one greater than the number of steps taken
+        //as it includes the start
+        if location % 26 == 25 {
+            z_points.push(path_trace.len() - 1);
+        }
+
     }
-    return result;
+
+}
+
+struct CycleDeets {
+    lead_in: usize,
+    cycle_length: usize,
+    z_points: Vec<usize>,
 }
