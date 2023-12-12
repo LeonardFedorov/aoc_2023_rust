@@ -38,7 +38,7 @@ pub fn day08_solution(input_data: String) -> (String, String) {
 
     //Part 2 - get the start locations that start in A and process their cycle deets
     //This has to be done from original data array because there's no way to discern an empty hash map entry from the true AAA
-    let mut p2_locations = path_data.lines().filter(
+    let p2_locations = path_data.lines().filter(
         |map_entry|
             map_entry.bytes().collect::<Vec<u8>>()[2] == b'A'
     ).map(
@@ -120,8 +120,8 @@ fn parse_cycle(start_point: usize, path_map: &Vec<Vec<usize>>, directions: &Vec<
 
     let mut location: usize = start_point;
 
-    let mut cycle_search: Option<usize> = None;
-
+    let mut _cycle_search: Option<usize> = None; //Flagged as unused to prevent compiler warning since it doesn't realise
+                                                 //the read inside the loop is inevitable
     path_trace.push((location, 0));
     let mut direction: usize = 0;
 
@@ -135,12 +135,11 @@ fn parse_cycle(start_point: usize, path_map: &Vec<Vec<usize>>, directions: &Vec<
             direction += 1;
         }
 
-        cycle_search = path_trace.iter().position(|(loc, dir)| *loc == location && *dir == direction);     
+        _cycle_search = path_trace.iter().position(|(loc, dir)| *loc == location && *dir == direction);     
 
-        if cycle_search.is_some() {
+        if _cycle_search.is_some() {
             return CycleDeets {
-                lead_in: cycle_search.unwrap(),
-                cycle_length: (path_trace.len() - cycle_search.unwrap()),
+                cycle_length: (path_trace.len() - _cycle_search.unwrap()),
                 z_points: z_points,
             }
         }
@@ -160,7 +159,6 @@ fn parse_cycle(start_point: usize, path_map: &Vec<Vec<usize>>, directions: &Vec<
 }
 
 struct CycleDeets {
-    lead_in: usize,
     cycle_length: usize,
     z_points: Vec<usize>,
 }
