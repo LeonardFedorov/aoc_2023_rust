@@ -74,7 +74,7 @@ fn run_day(args: Vec<String>) -> Result<(), &'static str> {
         integer_with_commas(millis)
     };
    
-    println!("Part 1: {part1_result}\nPart 2: {part2_result}\nTime taken: {time} {}s", if micros {'μ'} else {'m'});
+    println!("\nDay {day_num}\n\nPart 1: {part1_result}\nPart 2: {part2_result}\n\nTime taken: {time} {}s\n", if micros {'μ'} else {'m'});
 
     return Ok(());
 }
