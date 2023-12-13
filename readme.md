@@ -35,3 +35,6 @@ This was a challenging one. Part 1 wasn't too bad once I had sorteds out the dat
 
 ## Day 11
 Another easy day. Didn't fall into the trap that part 1 was laying (that of reconstructing the expanded cosmos) so part 2 was an easy addition. Played around with generic types for function signatures for the first time here, which was a nice addition (although strictly speaking unnecessary).
+
+## Day 13
+Easy in principle, but proved quite fiddly to get all the indexes working properly. Maybe an issue with a long day at work beforehand... Tried out using loop labels to do multi-level breaks and continues. Not 100% sure it was a good idea as it's moving toward a goto, but certainly saved a lot of space with incremental break and skip logic. Part 2 very straight forward to graft on in my construct - the approach was to count the number of mismatched cells occuring during the loop and count for p2 if there was exactly one error. The loop breaks then only occur when a given test scenario can't be valid for either part.
