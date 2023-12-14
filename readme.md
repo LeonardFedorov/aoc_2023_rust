@@ -38,3 +38,6 @@ Another easy day. Didn't fall into the trap that part 1 was laying (that of reco
 
 ## Day 13
 Easy in principle, but proved quite fiddly to get all the indexes working properly. Maybe an issue with a long day at work beforehand... Tried out using loop labels to do multi-level breaks and continues. Not 100% sure it was a good idea as it's moving toward a goto, but certainly saved a lot of space with incremental break and skip logic. Part 2 very straight forward to graft on in my construct - the approach was to count the number of mismatched cells occuring during the loop and count for p2 if there was exactly one error. The loop breaks then only occur when a given test scenario can't be valid for either part.
+
+## Day 14
+Not much to say about this one. I had a little bit of trepidation about storing full copies of the maps for the cycle analysis, but in the event the cycle came fairly quickly so this wasn't an issue. Intuitively, it seems like the rocks ought to clump up over time so the problem should generally tend to a steady state fairly quickly (barring a degenerative edge case), but I didn't prove this.
