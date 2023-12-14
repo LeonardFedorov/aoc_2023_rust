@@ -65,16 +65,22 @@ fn run_day(args: Vec<String>) -> Result<(), &'static str> {
 
     //If the code takes more 2^63 milliseconds to run and breaks the casts, joke's on me I guess
     let millis = after.as_millis() as i64;
-    let mut micros = false;
+    
+    let mut time: String;
+    let mut unit: String;
 
-    let time = if millis < 10 {
-        micros = true;
-        integer_with_commas(after.as_micros() as i64)
+    if millis < 10 {
+        unit = "μ".to_string();
+        time = integer_with_commas(after.as_micros() as i64);
+    } else if millis < 10_000 {
+        unit = "m".to_string();
+        time = integer_with_commas(millis);
     } else {
-        integer_with_commas(millis)
-    };
+        unit = String::new();
+        time = integer_with_commas(after.as_secs() as i64);
+    }
    
-    println!("\nDay {day_num}\n\nPart 1: {part1_result}\nPart 2: {part2_result}\n\nTime taken: {time} {}s\n", if micros {'μ'} else {'m'});
+    println!("\nDay {day_num}\n\nPart 1: {part1_result}\nPart 2: {part2_result}\n\nTime taken: {time} {unit}s\n");
 
     return Ok(());
 }
