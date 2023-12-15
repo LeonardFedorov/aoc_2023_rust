@@ -66,8 +66,8 @@ fn run_day(args: Vec<String>) -> Result<(), &'static str> {
     //If the code takes more 2^63 milliseconds to run and breaks the casts, joke's on me I guess
     let millis = after.as_millis() as i64;
     
-    let mut time: String;
-    let mut unit: String;
+    let time: String;
+    let unit: String;
 
     if millis < 10 {
         unit = "μ".to_string();

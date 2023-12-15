@@ -41,3 +41,6 @@ Easy in principle, but proved quite fiddly to get all the indexes working proper
 
 ## Day 14
 Not much to say about this one. I had a little bit of trepidation about storing full copies of the maps for the cycle analysis, but in the event the cycle came fairly quickly so this wasn't an issue. Intuitively, it seems like the rocks ought to clump up over time so the problem should generally tend to a steady state fairly quickly (barring a degenerative edge case), but I didn't prove this.
+
+## Day 15
+Part 1 very straiht forward - since my preference is to work with strings as byte arrays anyway this very straight forward. Part 2 took a bit of thinking on data structure. I settled on using a single vector for all the boxes initalised with empty vectors to hold a tuple (str, int) for the label and focus lengths. To save time, at the expense of some memory, I handled lens deletion by just zeroing out its entry. When the part 2 scoring occurs, the loop keeps an explicit count of how many initalised lenses are passed.
